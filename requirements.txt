@@ -1,0 +1,8 @@
+Flask
+numpy
+pandas
+yfinance
+tensorflow
+scikit-learn
+matplotlib
+chart.js
