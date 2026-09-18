@@ -1,42 +1,136 @@
-# StockVision 📈
+<div align="center">
 
-A data-driven stock market analysis project built to explore market data, indicators, and machine-learning-based insights.
+# 📈 StockVision
 
-## Overview
+### Stock Market Analysis & LSTM-Based Price Prediction
 
-StockVision is designed as a practical learning project for analyzing stock-market data and turning historical information into useful visual insights.
+A Python + Flask web application that fetches market data with **yfinance** and uses a trained **TensorFlow LSTM model** to generate 30-day stock-price predictions.
 
-## Features
+<p>
+  <img src="https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Flask-Web%20App-black?logo=flask" alt="Flask">
+  <img src="https://img.shields.io/badge/TensorFlow-LSTM-orange?logo=tensorflow&logoColor=white" alt="TensorFlow">
+  <img src="https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white" alt="scikit-learn">
+  <img src="https://img.shields.io/badge/yfinance-Market%20Data-green" alt="yfinance">
+</p>
 
-- 📊 Stock-market data analysis
-- 📈 Price and trend visualization
-- 🔎 Technical indicator exploration
-- 🤖 Machine-learning experimentation
-- 🧹 Data preprocessing and analysis
-- 📝 Clear, reproducible project documentation
+</div>
 
-## Tech Stack
+![StockVision Banner](assets/stockvision-banner.svg)
 
-- **Language:** Python
-- **Data Analysis:** Pandas, NumPy
-- **Visualization:** Matplotlib
-- **Machine Learning:** Scikit-learn
-- **Development:** Jupyter Notebook / VS Code
+---
 
-## Project Structure
+## 🚀 About the Project
+
+**StockVision** is a machine-learning project for experimenting with historical stock-market data and sequence-based price prediction.
+
+The application:
+
+- Fetches recent stock closing-price data using **yfinance**
+- Normalizes data with **MinMaxScaler**
+- Uses the previous **60 days** as the model input sequence
+- Generates predictions for the next **30 days**
+- Provides a Flask API endpoint for predictions
+- Includes user registration, login, session handling, and protected application routes
+- Loads a pre-trained TensorFlow/Keras LSTM model from `lstm_model.keras`
+
+> ⚠️ **Educational project:** StockVision is intended for learning and experimentation. Predictions are not financial advice and should not be used as the sole basis for investment decisions.
+
+---
+
+## ✨ Key Features
+
+| Feature | Description |
+|---|---|
+| 📊 Market Data | Retrieves historical stock data through yfinance |
+| 🧠 LSTM Prediction | Uses a trained recurrent neural network for sequence prediction |
+| 🔮 30-Day Forecast | Produces date-wise predicted prices for the next 30 days |
+| 🔐 Authentication | Registration, password hashing, login and session-based access |
+| 🌐 Flask API | POST `/predict` endpoint for stock predictions |
+| 📉 Data Scaling | MinMaxScaler transforms price data before prediction |
+| 💾 Saved Model | Pre-trained model stored as `lstm_model.keras` |
+
+---
+
+## 🧠 Machine Learning Workflow
+
+```text
+Historical Stock Data
+        ↓
+     yfinance
+        ↓
+   Closing Prices
+        ↓
+   MinMax Scaling
+        ↓
+Last 60 Days Sequence
+        ↓
+  TensorFlow LSTM
+        ↓
+ Next 30 Predictions
+        ↓
+Date-wise Stock Forecast
+```
+
+### Model Architecture
+
+The training script uses:
+
+- LSTM layer — 50 units
+- LSTM layer — 50 units
+- Dense layer — 25 units
+- Output layer — 30 values
+- Optimizer — Adam
+- Loss — Mean Squared Error
+
+The default training example in `train.py` uses **AAPL** historical data with a 5-year period.
+
+---
+
+## 🛠️ Tech Stack
+
+### Programming
+- Python
+
+### Web Development
+- Flask
+- HTML / CSS / JavaScript
+
+### Machine Learning
+- TensorFlow / Keras
+- Scikit-learn
+- NumPy
+- Pandas
+
+### Market Data
+- yfinance
+
+### Tools
+- Git
+- GitHub
+- VS Code
+
+---
+
+## 📁 Project Structure
 
 ```text
 StockVision/
-├── data/
-├── notebooks/
-├── src/
-├── requirements.txt
-└── README.md
+│
+├── assets/
+│   └── stockvision-banner.svg
+│
+├── app.py                 # Flask application and prediction API
+├── train.py               # LSTM training pipeline
+├── lstm_model.keras       # Pre-trained TensorFlow model
+├── symbols_valid_meta.csv # Stock symbol metadata
+├── requirements.txt       # Python dependencies
+└── README.md              # Project documentation
 ```
 
-> The exact folders may vary depending on the current implementation.
+---
 
-## Getting Started
+## ⚙️ Installation
 
 ### 1. Clone the repository
 
@@ -51,33 +145,109 @@ cd StockVision
 python -m venv venv
 ```
 
-Windows:
+### 3. Activate the environment
+
+**Windows**
 
 ```bash
 venv\Scripts\activate
 ```
 
-### 3. Install dependencies
+**macOS / Linux**
+
+```bash
+source venv/bin/activate
+```
+
+### 4. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Run the project
+---
 
-Open the notebooks or Python entry point included in the repository and follow the project workflow.
+## ▶️ Run the Application
 
-## Learning Goals
+Start the Flask application:
 
-This project demonstrates practical skills in Python programming, data analysis, visualization, and machine-learning experimentation.
+```bash
+python app.py
+```
 
-## Author
+Then open the local Flask address shown in your terminal.
 
-**Vignesh C**  
+### Prediction API
+
+Send a POST request to:
+
+```text
+/predict
+```
+
+Example JSON:
+
+```json
+{
+  "stockSymbol": "AAPL"
+}
+```
+
+The API returns date-wise predicted prices when valid market data is available.
+
+---
+
+## 🏋️ Train the Model
+
+To retrain the LSTM model:
+
+```bash
+python train.py
+```
+
+The script downloads historical data, prepares 60-day sequences, trains the LSTM model, and saves the resulting model as:
+
+```text
+lstm_model.keras
+```
+
+---
+
+## 🔒 Security Note
+
+Before deploying this application publicly, configure the Flask secret key through an environment variable rather than keeping a secret directly in source code.
+
+For production use, authentication storage should also use a persistent database instead of in-memory user storage.
+
+---
+
+## 📚 What I Learned
+
+- Python application development
+- Flask routing and REST APIs
+- User authentication and password hashing
+- Financial time-series data handling
+- Data preprocessing with NumPy and Pandas
+- LSTM sequence modeling with TensorFlow
+- Model saving and loading
+- Git and GitHub project documentation
+
+---
+
+## 👨‍💻 Author
+
+**Vignesh C**
+
 MCA Graduate | Full Stack Developer | Python & Django
 
-- GitHub: https://github.com/vignesh-c204
+GitHub: [@vignesh-c204](https://github.com/vignesh-c204)
 
-## Disclaimer
+---
 
-This project is for educational and research purposes only. It is not financial advice or a recommendation to buy or sell securities.
+<div align="center">
+
+### ⭐ If you find this project useful, consider giving it a star!
+
+**Built with Python, Flask & TensorFlow**
+
+</div>
